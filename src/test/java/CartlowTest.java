@@ -11,7 +11,8 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
+import com.aventstack.extentreports.*;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import java.time.Duration;
 
 public class CartlowTest {
@@ -20,6 +21,8 @@ public class CartlowTest {
     WebDriverWait wait;
     JavascriptExecutor js;
     Actions actions;
+    ExtentReports report;
+    ExtentTest test;
 
     @BeforeClass
     public void setup() {
@@ -29,12 +32,15 @@ public class CartlowTest {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         js = (JavascriptExecutor) driver;
         actions = new Actions(driver);
+        ExtentSparkReporter spark = new ExtentSparkReporter("CartlowReport.html");
+        report = new ExtentReports();
+        report.attachReporter(spark);
     }
 
     @Test(priority = 1)
-    public void testLogin() {
+    public void testLogin() throws InterruptedException {
         driver.get("https://cartlow.com/customer/login");
-
+        test = report.createTest("testLogin");
         WebElement emailField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("identifier")));
         emailField.sendKeys("mario.sherif25@gmail.com");
 
@@ -50,7 +56,7 @@ public class CartlowTest {
 
         WebElement accountButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@role='button' and text()='Account']")));
         actions.moveToElement(accountButton).perform();
-
+        Thread.sleep(1000);
         WebElement usernameElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[@class='font-medium' and normalize-space()='Youssef Sherif']")));
 
         Assert.assertTrue(usernameElement.isDisplayed(), "Login failed");
@@ -60,7 +66,7 @@ public class CartlowTest {
     public void testRegionChanges() {
         WebElement intlButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[.//span[text()='INTL']]")));
         intlButton.click();
-
+        test = report.createTest("testRegionChanges");
         WebElement uaeOption = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'UAE')]")));
         uaeOption.click();
         wait.until(ExpectedConditions.urlContains("/uae/en"));
@@ -70,7 +76,7 @@ public class CartlowTest {
     public void testLaptopIsFound() throws InterruptedException {
         WebElement laptopsLink = wait.until(ExpectedConditions.elementToBeClickable(By.linkText("Laptops")));
         laptopsLink.click();
-
+        test = report.createTest("testLaptopIsFound");
         WebElement searchBox = driver.findElement(By.name("query"));
         searchBox.sendKeys("Dell Latitude 7490 Intel Core i7-8650U");
         Thread.sleep(1000);
@@ -87,7 +93,7 @@ public class CartlowTest {
     public void testAddLaptopToCart() throws InterruptedException {
         js.executeScript("window.scrollTo(0, 700);");
         Thread.sleep(2000);
-
+        test = report.createTest("testAddLaptopToCart");
         WebElement addToCartBtn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[normalize-space()='Add To Cart']")));
         addToCartBtn.click();
 
@@ -103,6 +109,7 @@ public class CartlowTest {
 
     @Test(priority = 5)
     public void testWatchIsFound() throws InterruptedException {
+        test = report.createTest("testWatchIsFound");
         WebElement smartwatchesLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//li/a[@title='Smartwatches']")));
         smartwatchesLink.click();
         WebElement searchBox = driver.findElement(By.name("query"));
@@ -128,6 +135,7 @@ public class CartlowTest {
 
     @Test(priority = 6)
     public void testAddWatchToCart() throws InterruptedException {
+        test = report.createTest("testAddWatchToCart");
         WebElement addToCartBtnForWatch = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Add To Cart')]")));
         addToCartBtnForWatch.click();
 
@@ -144,6 +152,7 @@ public class CartlowTest {
 
     @Test(priority = 7)
     public void testItemsAreAddedToCart() throws InterruptedException {
+        test = report.createTest("testItemsAreAddedToCart");
         Thread.sleep(3000);
         WebElement cartIcon = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("span.icon-cart")));
         cartIcon.click();
@@ -158,6 +167,7 @@ public class CartlowTest {
 
     @Test(priority = 8)
     public void testRemoveItemFromCart() throws InterruptedException {
+        test = report.createTest("testRemoveItemFromCart");
         WebElement removeBtn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@title='Remove']")));
         removeBtn.click();
 
@@ -182,6 +192,7 @@ public class CartlowTest {
 
     @Test(priority = 9)
     public void testAddToCartAndCheckout() throws InterruptedException {
+        test = report.createTest("testAddToCartAndCheckout");
         WebElement checkoutBtn = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()=' Continue to Checkout ']")));
         checkoutBtn.click();
         Thread.sleep(4000);
@@ -215,5 +226,6 @@ public class CartlowTest {
     @AfterClass
     public void teardown() {
         driver.quit();
+        report.flush();
     }
 }
