@@ -1,0 +1,103 @@
+# 🧪 Cartlow Automation Testing (TestNG + Selenium)
+
+This project automates testing for the [Cartlow](https://cartlow.com) eCommerce website using **Selenium WebDriver**, **TestNG**, and **ExtentReports**.  
+It performs a full flow — from login to checkout — and generates a detailed HTML report.
+
+---
+
+## 🧰 Tech Used
+- Java  
+- Selenium WebDriver  
+- TestNG  
+- ExtentReports  
+- WebDriverManager  
+- ChromeDriver  
+
+---
+
+## ⚙️ How It Works
+The tests cover:
+1. Login to Cartlow website  
+2. Change the region to UAE  
+3. Search for laptop and smartwatch  
+4. Add both to the cart  
+5. Verify items exist in the cart  
+6. Remove an item from the cart  
+7. Continue to checkout  
+8. Generate test report (**CartlowReport.html**)  
+
+---
+
+## 📁 Project Structure
+Algoriza_automation_project/
+│
+├── CartlowTest.java
+├── CartlowReport.html # Generated after running tests
+└── README.md
+
+
+---
+
+## ▶️ How to Run
+1. Clone the project  
+   ```bash
+   git clone https://github.com/<your-username>/Algoriza_automation_project.git
+
+
+Open it in IntelliJ IDEA or Eclipse
+
+Make sure dependencies are in your pom.xml (Maven):
+
+<dependencies>
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>4.23.0</version>
+    </dependency>
+    <dependency>
+        <groupId>io.github.bonigarcia</groupId>
+        <artifactId>webdrivermanager</artifactId>
+        <version>5.8.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>7.10.0</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.aventstack</groupId>
+        <artifactId>extentreports</artifactId>
+        <version>5.1.1</version>
+    </dependency>
+</dependencies>
+
+
+Run tests with:
+
+Right-click the file → Run 'CartlowTest'
+
+or via command:
+
+mvn test
+
+🧾 Report
+
+After test execution, a report named:
+
+CartlowReport.html
+
+
+will be generated in the project root.
+Open it in a browser to view the full test summary.
+
+👨‍💻 Author
+
+Youssef Sherif
+Backend & QA Automation Enthusiast
+📧 mario.sherif25@gmail.com
+
+
+---
+
+want me to make it look more *professional GitHub style* (with sections like badges, ta
